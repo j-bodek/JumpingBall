@@ -46,9 +46,8 @@ export default{
     },
     displayDeadZones(state){
         // get wall on which dead zones should be displayed
-        const deadZoneX = state.velocityX > 0 ? 500 : 6;
+        const deadZoneX = state.velocityX > 0 ? state.canvasWidth : 6;
 
-        console.log(state.deadZones)
         // generate vertical dead zones
         state.deadZones.forEach(zone=>{
             state.deadZoneCtx.fillRect(deadZoneX-5, zone.y, deadZoneX-1, zone.height);
@@ -134,12 +133,24 @@ export default{
         state.currentY += state.velocityY;
     },
     calculateXProperty(state){
+        // check if hit in side wall
         if (state.currentX >= state.canvasWidth - state.radius){
             state.velocityX = -Math.abs(state.velocityX);
+            
         }else if(state.currentX <= state.radius){
             state.velocityX = Math.abs(state.velocityX);
         }
-        state.currentX += state.velocityX;
+        
+        // if playing on mobile phones currentX can be
+        // float so to prevent setting currentX less the radius or more then
+        // canvasWidth - radius use min and max function
+        if(state.currentX + state.velocityX > state.canvasWidth - state.radius){
+            state.currentX = state.canvasWidth - state.radius;
+        }else if(state.currentX + state.velocityX < state.radius)
+            state.currentX = state.radius;
+        else{
+            state.currentX += state.velocityX;
+        }
     },
     displayCircle(state){
         const circle = new Path2D();

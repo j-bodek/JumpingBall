@@ -8,6 +8,7 @@ export default{
 
         // if collision with vertical dead zone
         let gameOver = false;
+
         if (state.currentX === state.canvasWidth - state.radius || state.currentX === state.radius){
             state.deadZones.forEach(zone=>{
                 if(zone.y <= state.currentY && state.currentY <= zone.y + zone.height){
