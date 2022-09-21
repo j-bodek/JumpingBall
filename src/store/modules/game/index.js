@@ -18,9 +18,15 @@ export default{
             // ball properties 
             currentX:null,
             currentY:null,
-            radius:25,
+            radius:30,
             velocityX:null,
             velocityY:-5,
+
+            // dead zones
+            deadZoneCtx:null,
+            deadZones:[
+                // {y, height}
+            ]
           }
     },
     mutations:gameMutations,

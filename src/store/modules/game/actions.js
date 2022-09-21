@@ -12,11 +12,20 @@ export default{
     clearRectangle(context){
         context.commit('clearRectangle');
     },
+    resetDeadZoneCtx(context){
+        context.commit('clearDeadZoneCtx');
+    },
     startPlaying(context){
         context.commit('startPlaying');
     },
     setCtx(context, payload){
         context.commit('setCtx', {ctx:payload.ctx});
+    },
+    setdeadZoneCtx(context, payload){
+        context.commit('setdeadZoneCtx', {ctx:payload.ctx});
+    },
+    newDeadZones(context){
+        context.commit('newDeadZones');
     },
     calculateBallCoordinates(context){
         context.commit('calculateYProperty');
