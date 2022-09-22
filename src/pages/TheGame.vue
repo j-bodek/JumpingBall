@@ -1,10 +1,15 @@
 <template>
     <canvas id="deadzone-canvas"></canvas>
+    <points-counter v-if="$store.getters['isPlaying']"></points-counter>
     <canvas id="ball-canvas" @click="jumpBall"></canvas>
 </template>
   
 <script>
+    import PointsCounter from '../components/game/PointsCounter.vue';
     export default{
+      components:{
+        'points-counter':PointsCounter,
+      },
       data(){
         return{
           previousXVelocity: null,
@@ -38,6 +43,7 @@
               // display deadzones
               if (this.previousXVelocity && this.$store.getters['velocityX'] != this.previousXVelocity){
                 this.$store.dispatch('newDeadZones');
+                this.$store.dispatch('IncrementCounter');
               }
               this.previousXVelocity = this.$store.getters['velocityX']
             }else{
@@ -45,6 +51,7 @@
               this.$store.dispatch('resetCanvas');
               this.$store.dispatch('resetDeadZoneCtx');
               this.$store.dispatch('displayCircle');
+              this.$store.dispatch('setInitialCounter');
               // reset previous velocity
               this.previousXVelocity = this.$store.getters['velocityX']
           }
@@ -117,7 +124,7 @@
     }
 </script>
   
-<style>
+<style scoped>
     #ball-canvas,
     #deadzone-canvas{
       position: absolute;

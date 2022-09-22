@@ -1,6 +1,6 @@
 <template>
     <div class="counter-box">
-        <h1 class="counter">12</h1>
+        <h1 class="counter">{{$store.getters['counter']}}</h1>
     </div>
 </template>
 
