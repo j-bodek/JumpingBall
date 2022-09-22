@@ -14,23 +14,12 @@ export default{
 </script>
 
 <style>
+  @import url('http://fonts.cdnfonts.com/css/sf-mono');
   body{
+    font-family: 'SF Mono', sans-serif;              
     margin:0;
     padding:0;
     background: #E9ECEF;
-  }
-  #ball-canvas,
-  #deadzone-canvas{
-    position: absolute;
-    cursor: pointer;
-    left: 0; 
-    top: 0; 
-  }
-  #deadzone-canvas{
-    z-index: 0;
-  }
-  #ball-canvas{
-    z-index: 1;
   }
 
   #canvas-wraper{
