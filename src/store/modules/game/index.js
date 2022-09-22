@@ -7,7 +7,11 @@ export default{
         return{
             // general game state
             isPlaying:false,
-
+            // set 60 as initial fps number (to prevent dividing by zero)
+            fps:60,
+            // moveTime is time that take ball to travel from
+            // one side to another
+            moveTime:0,
             // canvas size
             canvasWidth:null,
             canvasHeight:null,
@@ -21,6 +25,7 @@ export default{
             radius:30,
             velocityX:null,
             velocityY:-5,
+            gravity:.35,
 
             // dead zones
             deadZoneCtx:null,

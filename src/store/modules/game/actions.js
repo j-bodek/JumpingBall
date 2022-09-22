@@ -2,8 +2,8 @@ export default{
     setCanvasSize(context){
         context.commit('setCanvasSize');
     },
-    setInitialProperties(context){
-        context.commit('setInitialProperties');
+    setInitialProperties(context, payload){
+        context.commit('setInitialProperties', payload);
     },
     resetCanvas(context){
         context.commit('setInitialProperties')

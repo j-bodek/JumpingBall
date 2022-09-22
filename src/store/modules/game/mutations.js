@@ -1,11 +1,16 @@
 export default{
-    setInitialProperties(state){
+    setInitialProperties(state, payload) {
+        if (payload && payload.fps) state.fps = payload.fps;
         // general game state
         state.isPlaying = false;
         // ball properties 
         state.currentX = Math.floor(state.canvasWidth/2);
         state.currentY = Math.floor(state.canvasHeight/2);
-        state.velocityX = state.canvasWidth/100;
+        // velocityX should be enough for ball to move from one side to the other
+        // in exactly (or very close) 1.5s
+        state.moveTime = 1500; //1.5 s
+        state.velocityX = (state.canvasWidth * 1000)/(state.moveTime*state.fps);
+        state.gravity = ((state.canvasHeight/100 * 1000)/(state.fps))*(3/1000);
         state.velocityY = -5;
         state.deadZones = [];
     },
@@ -129,8 +134,13 @@ export default{
     },
     //  ball specific mutations
     calculateYProperty(state){
-        state.velocityY += .2;
-        state.currentY += state.velocityY;
+        // increase velocityY to create gravity effect
+        // calculate increase rate so that after player jump 
+        // velocityY will be equal 0 after 1/3s
+        state.velocityY += state.gravity;
+        // if fps greater or less then 60 make sure that currentY
+        // is not updated to slow or too fast
+        state.currentY += state.velocityY/(state.fps/60);
     },
     calculateXProperty(state){
         // check if hit in side wall
@@ -158,6 +168,7 @@ export default{
         state.ctx.fill(circle);
     },
     resetVelocityY(state){
-        state.velocityY = -6;
+        // after user player jump
+        state.velocityY = -state.canvasHeight/100;
     } 
 }
