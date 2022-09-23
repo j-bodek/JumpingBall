@@ -33,6 +33,11 @@ export default{
             ballTailCounter:90,
             initBailCounter:90, //initialize ballCounter to 90 if 60 fps
 
+            // ball particles
+            ballParticles:[],
+            crashIter:0,
+            crashAnimationId:null,
+
             // dead zones
             deadZoneCtx:null,
             deadZonesAnimationIter:0,

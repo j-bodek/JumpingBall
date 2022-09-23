@@ -16,6 +16,11 @@ export default{
         // init ball tail
         state.initBailCounter = 90 * (state.fps/60)
         state.ballTailCounter = 90 * (state.fps/60)
+        // init ball crash particles
+        state.ballParticles = []
+        window.cancelAnimationFrame(state.crashAnimationId);
+        state.crashIter = 0
+        state.crashAnimationId = null
     },
     setCanvasSize(state){
         if(window.innerWidth > 500){
@@ -145,33 +150,37 @@ export default{
         state.deadZones = deadZonesArray;
     },
     //  ball specific mutations
-    calculateYProperty(state){
+    calculateYProperty(state, payload){
+        let obj = payload && payload.object ? payload.object : state
+        let speed = payload && payload.speed ? payload.speed : 1
         // increase velocityY to create gravity effect
         // calculate increase rate so that after player jump 
         // velocityY will be equal 0 after 1/3s
-        state.velocityY += state.gravity;
+        obj.velocityY += state.gravity * speed;
         // if fps greater or less then 60 make sure that currentY
         // is not updated to slow or too fast
-        state.currentY += state.velocityY/(state.fps/60);
+        obj.currentY += obj.velocityY/(state.fps/60) * speed;
     },
-    calculateXProperty(state){
+    calculateXProperty(state, payload){
+        let obj = payload && payload.object ? payload.object : state
+        let speed = payload && payload.speed ? payload.speed : 1
         // check if hit in side wall
-        if (state.currentX >= state.canvasWidth - state.radius){
-            state.velocityX = -Math.abs(state.velocityX);
+        if (obj.currentX >= state.canvasWidth - obj.radius){
+            obj.velocityX = -Math.abs(obj.velocityX)*speed;
             
-        }else if(state.currentX <= state.radius){
-            state.velocityX = Math.abs(state.velocityX);
+        }else if(obj.currentX <= obj.radius){
+            obj.velocityX = Math.abs(obj.velocityX)*speed;
         }
         
         // if playing on mobile phones currentX can be
         // float so to prevent setting currentX less the radius or more then
         // canvasWidth - radius use min and max function
-        if(state.currentX + state.velocityX > state.canvasWidth - state.radius){
-            state.currentX = state.canvasWidth - state.radius;
-        }else if(state.currentX + state.velocityX < state.radius)
-            state.currentX = state.radius;
+        if(obj.currentX + obj.velocityX > state.canvasWidth - obj.radius){
+            obj.currentX = state.canvasWidth - obj.radius;
+        }else if(obj.currentX + obj.velocityX < obj.radius)
+            obj.currentX = obj.radius;
         else{
-            state.currentX += state.velocityX;
+            obj.currentX += obj.velocityX*speed;
         }
     },
     updateFrameIter(state){
@@ -208,5 +217,41 @@ export default{
     resetVelocityY(state){
         // after user player jump
         state.velocityY = -state.canvasHeight/100;
-    } 
+    },
+
+    // ball crash animation
+    ballCrashAnimation(state){
+        for (let i = 0; i < 40; i++) {
+            let absVelocityX = (state.canvasWidth * 1000)/(state.moveTime*state.fps);
+            let velocityX = state.currentX === state.radius ? absVelocityX : -absVelocityX 
+            let obj = {
+                currentX:state.currentX, 
+                currentY:state.currentY, 
+                velocityX:Math.round(Math.random() * velocityX*2)+2,
+                velocityY:-Math.round(Math.random() * 15)
+            };
+            state.ballParticles.push(obj);
+        }
+
+        let obj = this;
+        let animate = function(){
+            obj.commit('clearRectangle');
+
+            let speed = 1;
+            if (state.crashIter < 25*(state.fps/60)){
+                speed = .2;
+                state.crashIter ++;
+            }
+
+            state.ballParticles.forEach(particle=>{
+                let part = new Path2D();
+                part.arc(particle.currentX, particle.currentY, 8, 0, 2 * Math.PI)
+                state.ctx.fill(part);
+                obj.commit('calculateYProperty', {object:particle, speed:speed});
+                obj.commit('calculateXProperty', {object:particle, speed:speed});
+            })
+            state.crashAnimationId = window.requestAnimationFrame(animate)
+        }
+        state.crashAnimationId = window.requestAnimationFrame(animate)
+    }
 }

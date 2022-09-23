@@ -41,5 +41,8 @@ export default{
     },
     displayCircle(context){
         context.commit('displayCircle');
-    }
+    },
+    ballCrashAnimation(context){
+        context.commit('ballCrashAnimation');
+    },
 }

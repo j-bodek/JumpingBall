@@ -75,12 +75,16 @@
             }else{
               // this.resetGame()
               this.$store.dispatch('resetBallTailCounter');
-              this.$store.dispatch('resetCanvas');
-              this.$store.dispatch('resetDeadZoneCtx');
-              this.$store.dispatch('displayCircle');
-              this.$store.dispatch('resetCounter');
-              // reset previous velocity
-              this.previousXVelocity = this.$store.getters['velocityX']
+              this.$store.dispatch('ballCrashAnimation');
+              // reset all game 2 s after ball crash animation
+              setTimeout(() => {
+                this.$store.dispatch('resetCanvas');
+                this.$store.dispatch('resetDeadZoneCtx');
+                this.$store.dispatch('displayCircle');
+                this.$store.dispatch('resetCounter');
+                // reset previous velocity
+                this.previousXVelocity = this.$store.getters['velocityX']
+              }, 2000)
           }
         },
         setFpsAndGame(){
