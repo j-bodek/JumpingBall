@@ -1,11 +1,15 @@
 <template>
     <canvas id="deadzone-canvas"></canvas>
-    <section v-if="!$store.getters['isPlaying']">
-      <game-title></game-title>
-      <how-to-play></how-to-play>
-      <score-log></score-log>
-    </section>
-    <points-counter v-if="$store.getters['isPlaying']"></points-counter>
+    <fade-in mode="out-in">
+      <section v-if="!$store.getters['isPlaying']">
+        <game-title></game-title>
+        <how-to-play></how-to-play>
+        <score-log></score-log>
+      </section>
+      
+      <points-counter v-else></points-counter>
+    </fade-in>
+
     <canvas id="ball-canvas" @click="jumpBall"></canvas>
 </template>
   
