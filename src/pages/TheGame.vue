@@ -1,6 +1,7 @@
 <template>
     <canvas id="deadzone-canvas"></canvas>
     <game-title v-if="!$store.getters['isPlaying']"></game-title>
+    <how-to-play v-if="!$store.getters['isPlaying']"></how-to-play>
     <points-counter v-if="$store.getters['isPlaying']"></points-counter>
     <canvas id="ball-canvas" @click="jumpBall"></canvas>
 </template>
@@ -8,10 +9,12 @@
 <script>
     import PointsCounter from '../components/game/PointsCounter.vue';
     import GameTitle from '../components/game/GameTitle.vue';
+    import HowToPlay from '../components/game/HowToPlay.vue';
     export default{
       components:{
         'points-counter':PointsCounter,
         'game-title':GameTitle,
+        'how-to-play':HowToPlay,
       },
       data(){
         return{
