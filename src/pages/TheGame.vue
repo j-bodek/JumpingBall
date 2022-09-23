@@ -1,7 +1,10 @@
 <template>
     <canvas id="deadzone-canvas"></canvas>
-    <game-title v-if="!$store.getters['isPlaying']"></game-title>
-    <how-to-play v-if="!$store.getters['isPlaying']"></how-to-play>
+    <section v-if="!$store.getters['isPlaying']">
+      <game-title></game-title>
+      <how-to-play></how-to-play>
+      <score-log></score-log>
+    </section>
     <points-counter v-if="$store.getters['isPlaying']"></points-counter>
     <canvas id="ball-canvas" @click="jumpBall"></canvas>
 </template>
@@ -10,11 +13,13 @@
     import PointsCounter from '../components/game/PointsCounter.vue';
     import GameTitle from '../components/game/GameTitle.vue';
     import HowToPlay from '../components/game/HowToPlay.vue';
+    import ScoreLog from '../components/game/ScoreLog.vue';
     export default{
       components:{
         'points-counter':PointsCounter,
         'game-title':GameTitle,
         'how-to-play':HowToPlay,
+        'score-log':ScoreLog,
       },
       data(){
         return{
@@ -62,7 +67,7 @@
               this.$store.dispatch('resetCanvas');
               this.$store.dispatch('resetDeadZoneCtx');
               this.$store.dispatch('displayCircle');
-              this.$store.dispatch('setInitialCounter');
+              this.$store.dispatch('resetCounter');
               // reset previous velocity
               this.previousXVelocity = this.$store.getters['velocityX']
           }
@@ -131,6 +136,8 @@
       },
       mounted(){
         this.setFpsAndGame();
+        // load best score and games played number
+        this.$store.dispatch('loadBestScoreAndGamesPlayed');
         // add keydown event listener
         document.addEventListener('keydown', this.pressSpace)
       },

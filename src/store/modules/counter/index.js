@@ -5,6 +5,8 @@ import counterGetters from './getters.js';
 export default{
     state(){
         return{
+            bestGameScore:0,
+            gamesPlayed:0,
             counter:0,
           }
     },
