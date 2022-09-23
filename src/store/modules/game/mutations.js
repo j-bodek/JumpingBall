@@ -52,15 +52,24 @@ export default{
     displayDeadZones(state){
         // get wall on which dead zones should be displayed
         const deadZoneX = state.velocityX > 0 ? state.canvasWidth : 6;
-
-        // generate vertical dead zones
-        state.deadZones.forEach(zone=>{
-            state.deadZoneCtx.fillRect(deadZoneX-5, zone.y, deadZoneX-1, zone.height);
-        })
-        
-        // generate horizontal dead zones
-        state.deadZoneCtx.fillRect(1, 1, state.canvasWidth-1, 5);
-        state.deadZoneCtx.fillRect(1, state.canvasHeight-5, state.canvasWidth-1, 5);
+        const object = this;
+        // display deadzones animation
+        let animation = function(){
+            if(state.deadZonesAnimationIter < Math.floor(10/(60/state.fps))){
+                object.commit("clearDeadZoneCtx");
+                state.deadZones.forEach(zone=>{
+                    state.deadZoneCtx.fillRect(deadZoneX-5, zone.y, deadZoneX-1, zone.height/(Math.floor(10/(60/state.fps))-state.deadZonesAnimationIter));
+                })
+                // generate horizontal dead zones
+                state.deadZoneCtx.fillRect(1, 1, state.canvasWidth-1, 5);
+                state.deadZoneCtx.fillRect(1, state.canvasHeight-5, state.canvasWidth-1, 5);
+                state.deadZonesAnimationIter ++;
+                window.requestAnimationFrame(animation);
+            }else{
+                state.deadZonesAnimationIter = 0;
+            }
+        }
+        window.requestAnimationFrame(animation);
     },
     generateDeadZones(state){
         // get number of safe zones (number between 2 and 4)

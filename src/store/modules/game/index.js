@@ -29,6 +29,8 @@ export default{
 
             // dead zones
             deadZoneCtx:null,
+            deadZonesAnimationIter:0,
+            deadZoneAnimationId:null,
             deadZones:[
                 // {y, height}
             ]
