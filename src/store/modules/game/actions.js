@@ -28,8 +28,13 @@ export default{
         context.commit('newDeadZones');
     },
     calculateBallCoordinates(context){
+        context.commit('updateFrameIter');
+        context.commit('calculateBallTail');
         context.commit('calculateYProperty');
         context.commit('calculateXProperty');
+    },
+    resetBallTailCounter(context){
+        context.commit('resetBallTailCounter');
     },
     resetVelocityY(context){
         context.commit('resetVelocityY')

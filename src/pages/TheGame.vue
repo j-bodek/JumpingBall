@@ -1,12 +1,12 @@
 <template>
     <canvas id="deadzone-canvas"></canvas>
     <fade-in mode="out-in">
-      <section v-if="!$store.getters['isPlaying']">
+      <section v-if="!isPlaying">
         <game-title></game-title>
         <how-to-play></how-to-play>
         <score-log></score-log>
       </section>
-      
+
       <points-counter v-else></points-counter>
     </fade-in>
 
@@ -35,6 +35,11 @@
           fpsIter:0,
         }
       },
+      computed:{
+        isPlaying(){
+          return this.$store.getters['isPlaying'];
+        }
+      },
       methods:{
         pressSpace(e){
           if (e.code === 'Space'){
@@ -42,13 +47,14 @@
           }
         },
         jumpBall(){
-          if(!this.$store.getters['isPlaying']){
+          if(!this.isPlaying){
             // this.isPlaying = true;
             this.$store.dispatch('startPlaying');
             // this.runAnimation();
             this.runAnimation();
           }else{
             this.$store.dispatch('resetVelocityY');
+            this.$store.dispatch('resetBallTailCounter');
           }
         },
         runAnimation(timestamp){
@@ -68,6 +74,7 @@
               this.previousXVelocity = this.$store.getters['velocityX']
             }else{
               // this.resetGame()
+              this.$store.dispatch('resetBallTailCounter');
               this.$store.dispatch('resetCanvas');
               this.$store.dispatch('resetDeadZoneCtx');
               this.$store.dispatch('displayCircle');

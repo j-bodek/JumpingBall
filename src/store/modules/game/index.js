@@ -26,6 +26,12 @@ export default{
             velocityX:null,
             velocityY:-5,
             gravity:.35,
+            
+            // ballTail
+            frameIter:0,
+            ballTail:[],
+            ballTailCounter:90,
+            initBailCounter:90, //initialize ballCounter to 90 if 60 fps
 
             // dead zones
             deadZoneCtx:null,

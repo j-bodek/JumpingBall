@@ -13,6 +13,9 @@ export default{
         state.gravity = ((state.canvasHeight/100 * 1000)/(state.fps))*(3/1000);
         state.velocityY = -5;
         state.deadZones = [];
+        // init ball tail
+        state.initBailCounter = 90 * (state.fps/60)
+        state.ballTailCounter = 90 * (state.fps/60)
     },
     setCanvasSize(state){
         if(window.innerWidth > 500){
@@ -171,10 +174,36 @@ export default{
             state.currentX += state.velocityX;
         }
     },
+    updateFrameIter(state){
+        state.frameIter ++;
+    },
+    resetBallTailCounter(state){
+        state.ballTailCounter = state.initBailCounter;
+        state.ballTail = [];
+    },
+    calculateBallTail(state){
+        if (state.ballTail.length < 6 && state.frameIter%(5*state.fps/60)==0){
+            state.ballTail.unshift({x:state.currentX, y:state.currentY})
+            state.frameIter = 0;
+        }
+    },
     displayCircle(state){
         const circle = new Path2D();
         circle.arc(state.currentX, state.currentY, state.radius, 0, 2 * Math.PI)
         state.ctx.fill(circle);
+        // display tail
+        if(state.ballTailCounter > 0){
+            state.ballTail.forEach(function(e, i){
+                let part = new Path2D();
+                let dynamicDivider = 1;
+                if (state.ballTailCounter <= 2*(Math.round(state.initBailCounter/3))){
+                    dynamicDivider = ((2*(Math.round(state.initBailCounter/3))+2) - state.ballTailCounter)/2;
+                }
+                part.arc(e.x, e.y, state.radius/((i+1)*2*dynamicDivider), 0, 2 * Math.PI)
+                state.ctx.fill(part);
+            })
+            state.ballTailCounter = Math.max(0, state.ballTailCounter-1);
+        }
     },
     resetVelocityY(state){
         // after user player jump

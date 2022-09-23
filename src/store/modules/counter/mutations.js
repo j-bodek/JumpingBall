@@ -4,7 +4,6 @@ export default{
     },
     loadBestScoreAndGamesPlayed(state){
         if(!isNaN(localStorage.getItem('gamesPlayed'))){
-            console.log(localStorage.getItem('gamesPlayed'));
             state.gamesPlayed = Number(localStorage.getItem('gamesPlayed'));
         }
         if(!isNaN(localStorage.getItem('bestGameScore'))){
