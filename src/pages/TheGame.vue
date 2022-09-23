@@ -27,6 +27,11 @@
         }
       },
       methods:{
+        pressSpace(e){
+          if (e.code === 'Space'){
+            this.jumpBall()
+          }
+        },
         jumpBall(){
           if(!this.$store.getters['isPlaying']){
             // this.isPlaying = true;
@@ -126,6 +131,11 @@
       },
       mounted(){
         this.setFpsAndGame();
+        // add keydown event listener
+        document.addEventListener('keydown', this.pressSpace)
+      },
+      beforeUnmount() {
+        document.removeEventListener('click', this.pressSpace)
       },
     }
 </script>
