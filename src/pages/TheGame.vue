@@ -84,7 +84,7 @@
                 this.$store.dispatch('resetCounter');
                 // reset previous velocity
                 this.previousXVelocity = this.$store.getters['velocityX']
-              }, 2000)
+              }, 3500)
           }
         },
         setFpsAndGame(){
