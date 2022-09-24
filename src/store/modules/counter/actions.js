@@ -6,6 +6,7 @@ export default{
     },
     IncrementCounter(context){
         context.commit('IncrementCounter');
+        context.commit('updateColor');
     }, 
     loadBestScoreAndGamesPlayed(context){
         context.commit('loadBestScoreAndGamesPlayed');

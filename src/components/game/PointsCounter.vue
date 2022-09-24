@@ -1,11 +1,17 @@
 <template>
-    <div class="counter-box">
+    <div class="counter-box" v-bind:class="counterColorClass">
         <h1 class="counter">{{$store.getters['counter']}}</h1>
     </div>
 </template>
 
 <script>
-
+export default{
+    computed:{
+    counterColorClass(){
+      return this.$store.getters['getColor'].counter;
+    },
+    }
+}
 </script>
 
 <style scoped>
@@ -18,7 +24,7 @@
     text-align: center;
     left: 0; right: 0; top: 0; bottom: 0;
     margin: auto;
-    background: #C1DCEB;
+    /* background: #343A40; */
 }
 .counter{
     -webkit-touch-callout: none; /* iOS Safari */
@@ -29,7 +35,7 @@
     user-select: none; /* Non-prefixed version, currently
                             supported by Chrome, Edge, Opera and Firefox */
     font-size:80px;
-    color: #343A40;
+    /* color: #343A40; */
     margin:auto;
     font-weight: 900;
 }

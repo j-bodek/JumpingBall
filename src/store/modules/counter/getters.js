@@ -5,6 +5,9 @@ export default{
         }
         return state.counter
     },
+    getColor(state){
+        return state.colors[state.colorIndex]
+    },
     bestGameScore(state){
         return state.bestGameScore;
     },

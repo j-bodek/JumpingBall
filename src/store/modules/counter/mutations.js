@@ -1,6 +1,7 @@
 export default{
     setInitialCounter(state){
         state.counter = 0;
+        state.colorIndex = 0;
     },
     loadBestScoreAndGamesPlayed(state){
         if(!isNaN(localStorage.getItem('gamesPlayed'))){
@@ -8,6 +9,11 @@ export default{
         }
         if(!isNaN(localStorage.getItem('bestGameScore'))){
             state.bestGameScore = Number(localStorage.getItem('bestGameScore'));
+        }
+    },
+    updateColor(state){
+        if(state.counter % 10 === 0){
+            state.colorIndex = state.colorIndex + 1 < state.colors.length ? state.colorIndex + 1 : 0;
         }
     },
     IncrementCounter(state){

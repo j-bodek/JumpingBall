@@ -22,7 +22,6 @@
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently
                             supported by Chrome, Edge, Opera and Firefox */
-    color: #C1DCEB;
     margin: auto;
     font-size:16px;
     font-weight: 700;

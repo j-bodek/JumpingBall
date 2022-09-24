@@ -17,7 +17,6 @@
         text-align: center;
     }
     .score-log h3{
-        color: #C1DCEB;
         line-height: 1;
         margin:.5rem;
     }
