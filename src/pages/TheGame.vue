@@ -9,8 +9,8 @@
 
       <points-counter v-else></points-counter>
     </fade-in>
+    <canvas id="ball-canvas" v-bind:class="{'fade-in':!isPlaying}" @click="jumpBall"></canvas>
 
-    <canvas id="ball-canvas" @click="jumpBall"></canvas>
 </template>
   
 <script>
@@ -175,6 +175,17 @@
     }
     #ball-canvas{
       z-index: 1;
+    }
+    
+
+    .fade-in{
+      animation: fade-in 0.4s ease-in-out;
+    }
+    /* fade-in animation */
+    @keyframes fade-in{
+      0%{opacity:0;}
+      50%{opacity:0;}
+      100%{opacity:1;}
     }
 </style>
   
