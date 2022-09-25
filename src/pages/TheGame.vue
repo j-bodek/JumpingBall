@@ -1,5 +1,5 @@
 <template>
-    <canvas id="deadzone-canvas"></canvas>
+    <canvas id="deadzone-canvas" @click.prevent></canvas>
     <fade-in mode="out-in">
       <section v-if="!isPlaying">
         <game-title></game-title>
@@ -9,7 +9,9 @@
 
       <points-counter v-else></points-counter>
     </fade-in>
-    <canvas id="ball-canvas" v-bind:class="{'fade-in':!isPlaying}" @click="jumpBall"></canvas>
+
+    <canvas id="ball-canvas" v-bind:class="{'fade-in':!isPlaying}"></canvas>
+    <div class="canvas-overlay" @click.prevent="jumpBall"></div>
 
 </template>
   
@@ -46,7 +48,9 @@
             this.jumpBall()
           }
         },
-        jumpBall(){
+        jumpBall(e){
+          e.preventDefault();
+          e.stopPropagation();
           if(!this.isPlaying){
             // this.isPlaying = true;
             this.$store.dispatch('startPlaying');
@@ -175,6 +179,13 @@
     }
     #ball-canvas{
       z-index: 1;
+    }
+
+    .canvas-overlay{
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index:1000;
     }
     
 

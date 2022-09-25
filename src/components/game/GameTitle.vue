@@ -1,6 +1,6 @@
 <template>
     <div class="title-box">
-        <h1 class="title">Jumping Balls<span>●</span></h1>
+        <h1 class="title">Jumping Ball<span>●</span></h1>
     </div>
 </template>
 
