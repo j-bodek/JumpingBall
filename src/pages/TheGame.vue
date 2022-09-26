@@ -48,9 +48,7 @@
             this.jumpBall()
           }
         },
-        jumpBall(e){
-          e.preventDefault();
-          e.stopPropagation();
+        jumpBall(){
           if(!this.isPlaying){
             // this.isPlaying = true;
             this.$store.dispatch('startPlaying');
